@@ -1,11 +1,5 @@
 'use strict';
-/*
-document.addEventListener()
 
-const numberGuess = document.querySelector('.guess').value;
-
-console.log(message, score, numberHTML, numberGuess);
-*/
 //Initial all HTML Elements
 const message = document.querySelector('.message');
 const numberHTML = document.querySelector('.number');
