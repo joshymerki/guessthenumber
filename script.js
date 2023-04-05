@@ -33,7 +33,18 @@ const wrongNumberInput = function (text) {
   scoreHTML.textContent = scoreNumber;
 };
 
-const restartTheGame = function () {
+const restartTheGame = function (restartArt) {
+  if (document.querySelector('body').classList.contains('won')) {
+    document.querySelector('body').classList.remove('won');
+    if (scoreNumber > highScoreNumber && restartArt === `OHS`) {
+      highScoreNumber = scoreNumber;
+      highScoreHTML.textContent = highScoreNumber;
+    }
+  }
+  if (restartArt === `MHS`) {
+    highScoreNumber = 0;
+    highScoreHTML.textContent = highScoreNumber;
+  }
   scoreNumber = 20;
   scoreHTML.textContent = scoreNumber;
   numberHTML.textContent = '?';
@@ -42,7 +53,8 @@ const restartTheGame = function () {
   message.textContent = 'Start guessing...';
 };
 
-document.querySelector('.btn.check').addEventListener('click', function () {
+//Function for Cheking he Inpu Value
+const checkTheInput = function () {
   //Get the Input Value and Convert it to a Number.
   const numberGuessString = document.querySelector('.guess').value;
   const numberGuess = Number(numberGuessString);
@@ -72,25 +84,54 @@ document.querySelector('.btn.check').addEventListener('click', function () {
   } else {
     message.textContent = 'The Number is out of Scope';
   }
+};
+
+document.querySelector('.btn.check').addEventListener('click', checkTheInput());
+
+document.querySelector('.menu-btn').addEventListener('click', function () {
+  document.querySelector('body').classList.add('open-menu');
+});
+//Menu Buttons
+document
+  .querySelector('.btn.restart-soft')
+  .addEventListener('click', function () {
+    restartTheGame(`OHS`);
+    document.querySelector('body').classList.remove('open-menu');
+  });
+
+document.querySelector('.btn.c-menu').addEventListener('click', function () {
+  document.querySelector('body').classList.remove('open-menu');
 });
 
-document.querySelector('.again').addEventListener('click', function () {
-  if (document.querySelector('body').classList.contains('won')) {
-    document.querySelector('body').classList.remove('won');
-    if (scoreNumber > highScoreNumber) {
-      highScoreNumber = scoreNumber;
-      highScoreHTML.textContent = highScoreNumber;
+window.addEventListener(
+  'keydown',
+  function (event) {
+    if (event.defaultPrevented) {
+      return; // Do nothing if the event was already processed
     }
-    restartTheGame();
-  } else {
-    document.querySelector('body').classList.add('not-finished');
-  }
-});
 
-document.querySelector('.btn.restart').addEventListener('click', function () {
-  restartTheGame();
-  document.querySelector('body').classList.remove('not-finished');
-});
-document.querySelector('.btn.c-overlay').addEventListener('click', function () {
-  document.querySelector('body').classList.remove('not-finished');
-});
+    switch (event.key) {
+      case 'Escape':
+        if (document.querySelector(`body`).classList.contains(`open-menu`)) {
+          document.querySelector('body').classList.remove('open-menu');
+        }
+        break;
+      case `Enter`:
+        if (!document.querySelector(`body`).classList.contains(`open-menu`)) {
+          checkTheInput();
+        }
+        break;
+      case ' ':
+        if (!document.querySelector(`body`).classList.contains(`open-menu`)) {
+          restartTheGame(`OHS`);
+        }
+        break;
+      default:
+        return; // Quit when this doesn't handle the key event.
+    }
+
+    // Cancel the default action to avoid it being handled twice
+    event.preventDefault();
+  },
+  true
+);

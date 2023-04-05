@@ -39,7 +39,7 @@ main {
   justify-content: space-around;
 }
 
-.overlay {
+.menu {
   height: 100vh;
   width: 100vw;
   position: absolute;
@@ -47,13 +47,18 @@ main {
   left: 0;
   background-color: #222;
   display: none;
+  opacity: 0;
+  transition: all 2s linear;
+}
+
+.open-menu .menu {
+  display: block;
   opacity: 1;
 }
 
-.not-finished .overlay {
+.menu .restart-section {
   display: flex;
-  align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .left {
@@ -103,7 +108,13 @@ h1 {
   right: 2rem;
 }
 
-.again {
+.menu-btn {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
+.c-menu {
   position: absolute;
   top: 2rem;
   left: 2rem;
@@ -143,4 +154,21 @@ h1 {
 
 .label-score {
   margin-bottom: 2rem;
+}
+
+.highscore-menu {
+  display: flex;
+  justify-content: center;
+}
+
+.highscore-menu p {
+  font-size: 2rem;
+}
+
+.menu-content {
+  height: 100vh;
+  gap: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
