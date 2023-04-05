@@ -33,7 +33,14 @@ const wrongNumberInput = function (text) {
   scoreHTML.textContent = scoreNumber;
 };
 
-const restartTheGame = function () {};
+const restartTheGame = function () {
+  scoreNumber = 20;
+  scoreHTML.textContent = scoreNumber;
+  numberHTML.textContent = '?';
+  document.querySelector('.guess').value = '';
+  randomNumber = Math.trunc(Math.random() * 21);
+  message.textContent = 'Start guessing...';
+};
 
 document.querySelector('.btn.check').addEventListener('click', function () {
   //Get the Input Value and Convert it to a Number.
@@ -74,11 +81,16 @@ document.querySelector('.again').addEventListener('click', function () {
       highScoreNumber = scoreNumber;
       highScoreHTML.textContent = highScoreNumber;
     }
+    restartTheGame();
+  } else {
+    document.querySelector('body').classList.add('not-finished');
   }
-  scoreNumber = 20;
-  scoreHTML.textContent = scoreNumber;
-  numberHTML.textContent = '?';
-  document.querySelector('.guess').value = '';
-  randomNumber = Math.trunc(Math.random() * 21);
-  message.textContent = 'Start guessing...';
+});
+
+document.querySelector('.btn.restart').addEventListener('click', function () {
+  restartTheGame();
+  document.querySelector('body').classList.remove('not-finished');
+});
+document.querySelector('.btn.c-overlay').addEventListener('click', function () {
+  document.querySelector('body').classList.remove('not-finished');
 });

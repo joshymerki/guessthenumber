@@ -15,16 +15,22 @@
       <div class="number">?</div>
     </header>
     <main>
-      <section class="left">
-        <input type="number" class="guess" />
-        <button class="btn check">Check!</button>
+      <section class="normal-game">
+        <section class="left">
+          <input type="number" class="guess" />
+          <button class="btn check">Check!</button>
+        </section>
+        <section class="right">
+          <p class="message">Start guessing...</p>
+          <p class="label-score">💯 Score: <span class="score">20</span></p>
+          <p class="label-highscore">
+            🥇 Highscore: <span class="highscore">0</span>
+          </p>
+        </section>
       </section>
-      <section class="right">
-        <p class="message">Start guessing...</p>
-        <p class="label-score">💯 Score: <span class="score">20</span></p>
-        <p class="label-highscore">
-          🥇 Highscore: <span class="highscore">0</span>
-        </p>
+      <section class="overlay">
+        <button class="btn restart">Restart</button>
+        <button class="btn c-overlay">Close Overlay</button>
       </section>
     </main>
     <script src="script.js"></script>
