@@ -10,13 +10,21 @@ console.log(message, score, numberHTML, numberGuess);
 const message = document.querySelector('.message');
 const numberHTML = document.querySelector('.number');
 const scoreHTML = document.querySelector('.score');
+const highScoreHTML = document.querySelector('.highscore');
 
 // Our Seacret Number
 let randomNumber = Math.trunc(Math.random() * 21);
-numberHTML.textContent = randomNumber;
 
 // Score Variable
 let scoreNumber = 20;
+let highScoreNumber = 0;
+
+//Function if you WON
+const wonTheGame = function () {
+  message.textContent = 'Right Number';
+  document.querySelector('body').classList.add('won');
+  numberHTML.textContent = randomNumber;
+};
 
 //Function if you lost
 const loseTheGame = function () {
@@ -31,6 +39,8 @@ const wrongNumberInput = function (text) {
   scoreHTML.textContent = scoreNumber;
 };
 
+const restartTheGame = function () {};
+
 document.querySelector('.btn.check').addEventListener('click', function () {
   //Get the Input Value and Convert it to a Number.
   const numberGuessString = document.querySelector('.guess').value;
@@ -41,10 +51,10 @@ document.querySelector('.btn.check').addEventListener('click', function () {
   }
   //Check if the Input Was the Random number
   else if (numberGuess === randomNumber) {
-    message.textContent = 'Right Number';
+    wonTheGame();
   }
   //Check if the Input was hihger then the Random Number
-  else if (numberGuess > randomNumber) {
+  else if (numberGuess > randomNumber && numberGuess <= 20) {
     if (scoreNumber > 1) {
       wrongNumberInput('high');
     } else {
@@ -52,11 +62,29 @@ document.querySelector('.btn.check').addEventListener('click', function () {
     }
   }
   //Check if the Input was Lower then the Random Number
-  else if (numberGuess < randomNumber) {
+  else if (numberGuess < randomNumber && numberGuess >= 0) {
     if (scoreNumber > 1) {
       wrongNumberInput('low');
     } else {
       loseTheGame();
     }
+  } else {
+    message.textContent = 'The Number is out of Scope';
   }
+});
+
+document.querySelector('.again').addEventListener('click', function () {
+  if (document.querySelector('body').classList.contains('won')) {
+    document.querySelector('body').classList.remove('won');
+    if (scoreNumber > highScoreNumber) {
+      highScoreNumber = scoreNumber;
+      highScoreHTML.textContent = highScoreNumber;
+    }
+  }
+  scoreNumber = 20;
+  scoreHTML.textContent = scoreNumber;
+  numberHTML.textContent = '?';
+  document.querySelector('.guess').value = '';
+  randomNumber = Math.trunc(Math.random() * 21);
+  message.textContent = 'Start guessing...';
 });
