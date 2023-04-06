@@ -127,6 +127,13 @@ document
     document.querySelector('body').classList.remove('open-menu');
   });
 
+document
+  .querySelector('.btn.restart-hard')
+  .addEventListener('click', function () {
+    restartTheGame(`MHS`);
+    document.querySelector('body').classList.remove('open-menu');
+  });
+
 document.querySelector('.btn.c-menu').addEventListener('click', function () {
   document.querySelector('body').classList.remove('open-menu');
 });
