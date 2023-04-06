@@ -48,7 +48,6 @@ main {
   background-color: #222;
   display: none;
   opacity: 0;
-  transition: all 2s linear;
 }
 
 .open-menu .menu {
@@ -167,7 +166,7 @@ h1 {
 
 .menu-content {
   height: 100vh;
-  gap: 50px;
+  gap: 17vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
