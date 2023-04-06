@@ -1,18 +1,18 @@
 'use strict';
 
-//Initial all HTML Elements
+//Initial all HTML Elements into var
 const message = document.querySelector('.message');
 const numberHTML = document.querySelector('.number');
 const scoreHTML = document.querySelector('.score');
 const highScoreHTML = document.querySelector('.highscore');
-let lastGuess;
 
 // Our Seacret Number
 let randomNumber = Math.trunc(Math.random() * 21);
 
-// Score Variable
+// Some Variable
 let scoreNumber = 20;
 let highScoreNumber = 0;
+let lastGuess;
 
 //Funcion to Open the Menu
 const openTheMenu = function () {
@@ -27,7 +27,7 @@ const wonTheGame = function () {
   numberHTML.textContent = randomNumber;
 };
 
-//Function if you lost
+//Function if you LOST
 const loseTheGame = function () {
   message.textContent = 'You Lost the Game!';
   scoreHTML.textContent = 0;
@@ -42,17 +42,21 @@ const wrongNumberInput = function (text) {
 
 //Function for Restarting the Game
 const restartTheGame = function (restartArt) {
+  //Check if you had won
   if (document.querySelector('body').classList.contains('won')) {
     document.querySelector('body').classList.remove('won');
+    //Check if newHighscore is Higher han OLD
     if (scoreNumber > highScoreNumber && restartArt === `OHS`) {
       highScoreNumber = scoreNumber;
       highScoreHTML.textContent = highScoreNumber;
     }
   }
+  //Check if it is a Hard reset
   if (restartArt === `MHS`) {
     highScoreNumber = 0;
     highScoreHTML.textContent = highScoreNumber;
   }
+  //Reset all Var to Default
   lastGuess = '';
   scoreNumber = 20;
   scoreHTML.textContent = scoreNumber;
@@ -62,7 +66,7 @@ const restartTheGame = function (restartArt) {
   message.textContent = 'Start guessing...';
 };
 
-//Function for Cheking he Input Value
+//Function for Cheking the Input Value
 const checkTheInput = function () {
   //Get the Input Value and Convert it to a Number.
   const numberGuessString = document.querySelector('.guess').value;
@@ -120,6 +124,8 @@ document.querySelector('.btn.check').addEventListener('click', checkTheInput);
 document.querySelector('.menu-btn').addEventListener('click', openTheMenu);
 
 //Menu Buttons
+
+//Button for Soft Reset
 document
   .querySelector('.btn.restart-soft')
   .addEventListener('click', function () {
@@ -127,17 +133,19 @@ document
     document.querySelector('body').classList.remove('open-menu');
   });
 
+//Button for hard Reset
 document
   .querySelector('.btn.restart-hard')
   .addEventListener('click', function () {
     restartTheGame(`MHS`);
     document.querySelector('body').classList.remove('open-menu');
   });
-
+//Button for Menu Close
 document.querySelector('.btn.c-menu').addEventListener('click', function () {
   document.querySelector('body').classList.remove('open-menu');
 });
 
+//Add Key Support
 window.addEventListener(
   'keydown',
   function (event) {
@@ -146,11 +154,13 @@ window.addEventListener(
     }
 
     switch (event.key) {
+      //Key Support Esc
       case 'Escape':
         if (document.querySelector(`body`).classList.contains(`open-menu`)) {
           document.querySelector('body').classList.remove('open-menu');
         }
         break;
+      //Key Support Enter
       case 'Enter':
         if (!document.querySelector(`body`).classList.contains(`open-menu`)) {
           checkTheInput();
