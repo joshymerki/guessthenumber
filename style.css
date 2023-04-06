@@ -53,11 +53,14 @@ main {
 .open-menu .menu {
   display: block;
   opacity: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .menu .restart-section {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: min(15vw, 300px);
 }
 
 .left {
@@ -161,13 +164,24 @@ h1 {
 }
 
 .highscore-menu p {
-  font-size: 2rem;
+  font-size: 5rem;
 }
 
 .menu-content {
-  height: 100vh;
-  gap: 17vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 17vh;
+  max-width: 1200px;
+  margin: 100px 200px;
+}
+
+.instruction p {
+  font-size: 3rem;
+}
+
+.instruction {
+  display: grid;
+  grid-template-columns: [first] 50% [line2] 50% [end];
+  gap: 50px;
 }
