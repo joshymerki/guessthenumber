@@ -5,6 +5,7 @@ const message = document.querySelector('.message');
 const numberHTML = document.querySelector('.number');
 const scoreHTML = document.querySelector('.score');
 const highScoreHTML = document.querySelector('.highscore');
+let lastGuess;
 
 // Our Seacret Number
 let randomNumber = Math.trunc(Math.random() * 21);
@@ -12,6 +13,12 @@ let randomNumber = Math.trunc(Math.random() * 21);
 // Score Variable
 let scoreNumber = 20;
 let highScoreNumber = 0;
+
+//Funcion to Open the Menu
+const openTheMenu = function () {
+  document.querySelector('body').classList.add('open-menu');
+  document.querySelector('.highscore-menu-text').textContent = highScoreNumber;
+};
 
 //Function if you WON
 const wonTheGame = function () {
@@ -33,6 +40,7 @@ const wrongNumberInput = function (text) {
   scoreHTML.textContent = scoreNumber;
 };
 
+//Function for Restarting the Game
 const restartTheGame = function (restartArt) {
   if (document.querySelector('body').classList.contains('won')) {
     document.querySelector('body').classList.remove('won');
@@ -45,6 +53,7 @@ const restartTheGame = function (restartArt) {
     highScoreNumber = 0;
     highScoreHTML.textContent = highScoreNumber;
   }
+  lastGuess = '';
   scoreNumber = 20;
   scoreHTML.textContent = scoreNumber;
   numberHTML.textContent = '?';
@@ -53,44 +62,63 @@ const restartTheGame = function (restartArt) {
   message.textContent = 'Start guessing...';
 };
 
-//Function for Cheking he Inpu Value
+//Function for Cheking he Input Value
 const checkTheInput = function () {
   //Get the Input Value and Convert it to a Number.
   const numberGuessString = document.querySelector('.guess').value;
   const numberGuess = Number(numberGuessString);
+
   //Check if the Input was a Number
   if (numberGuessString !== numberGuess.toString()) {
     message.textContent = 'No Number!';
   }
-  //Check if the Input Was the Random number
-  else if (numberGuess === randomNumber) {
-    wonTheGame();
-  }
-  //Check if the Input was hihger then the Random Number
-  else if (numberGuess > randomNumber && numberGuess <= 20) {
-    if (scoreNumber > 1) {
-      wrongNumberInput('high');
-    } else {
-      loseTheGame();
+
+  //Check if the Number is not the Same Number
+  else if (lastGuess != numberGuess) {
+    //Check if the Input Was the Random number
+    if (numberGuess === randomNumber) {
+      lastGuess = numberGuess;
+      wonTheGame();
+    }
+
+    //Check if the Input was hihger then the Random Number
+    else if (numberGuess > randomNumber && numberGuess <= 20) {
+      lastGuess = numberGuess;
+      if (scoreNumber > 1) {
+        wrongNumberInput('high');
+      } else {
+        loseTheGame();
+      }
+    }
+
+    //Check if the Input was Lower then the Random Number
+    else if (numberGuess < randomNumber && numberGuess >= 0) {
+      lastGuess = numberGuess;
+      if (scoreNumber > 1) {
+        wrongNumberInput('low');
+      } else {
+        loseTheGame();
+      }
     }
   }
-  //Check if the Input was Lower then the Random Number
-  else if (numberGuess < randomNumber && numberGuess >= 0) {
-    if (scoreNumber > 1) {
-      wrongNumberInput('low');
-    } else {
-      loseTheGame();
-    }
-  } else {
+
+  //Check if it is the Same number
+  else if (lastGuess == numberGuess) {
+    message.textContent = 'Dont input the same Number Again';
+  }
+
+  //Default Anwser
+  else {
     message.textContent = 'The Number is out of Scope';
   }
 };
 
-document.querySelector('.btn.check').addEventListener('click', checkTheInput());
+//Chek Button Listener
+document.querySelector('.btn.check').addEventListener('click', checkTheInput);
 
-document.querySelector('.menu-btn').addEventListener('click', function () {
-  document.querySelector('body').classList.add('open-menu');
-});
+//Open Menu Button
+document.querySelector('.menu-btn').addEventListener('click', openTheMenu);
+
 //Menu Buttons
 document
   .querySelector('.btn.restart-soft')
@@ -116,7 +144,7 @@ window.addEventListener(
           document.querySelector('body').classList.remove('open-menu');
         }
         break;
-      case `Enter`:
+      case 'Enter':
         if (!document.querySelector(`body`).classList.contains(`open-menu`)) {
           checkTheInput();
         }
