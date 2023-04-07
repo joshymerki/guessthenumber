@@ -13,6 +13,7 @@ let randomNumber = Math.trunc(Math.random() * 21);
 let scoreNumber = 20;
 let highScoreNumber = 0;
 let lastGuess;
+let won = false;
 
 //Funcion to Open the Menu
 const openTheMenu = function () {
@@ -22,6 +23,7 @@ const openTheMenu = function () {
 
 //Function if you WON
 const wonTheGame = function () {
+  won = true;
   message.textContent = 'Right Number';
   document.querySelector('body').classList.add('won');
   numberHTML.textContent = randomNumber;
@@ -43,8 +45,9 @@ const wrongNumberInput = function (text) {
 //Function for Restarting the Game
 const restartTheGame = function (restartArt) {
   //Check if you had won
-  if (document.querySelector('body').classList.contains('won')) {
+  if (won) {
     document.querySelector('body').classList.remove('won');
+    won = false;
     //Check if newHighscore is Higher han OLD
     if (scoreNumber > highScoreNumber && restartArt === `OHS`) {
       highScoreNumber = scoreNumber;
@@ -56,6 +59,7 @@ const restartTheGame = function (restartArt) {
     highScoreNumber = 0;
     highScoreHTML.textContent = highScoreNumber;
   }
+
   //Reset all Var to Default
   lastGuess = '';
   scoreNumber = 20;
