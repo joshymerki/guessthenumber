@@ -145,6 +145,22 @@ h1 {
   cursor: pointer;
 }
 
+.check {
+  display: block;
+}
+
+.normal-game .restart-soft {
+  display: none;
+}
+
+.won .check {
+  display: none;
+}
+
+.won .normal-game .restart-soft {
+  display: block;
+}
+
 .btn:hover {
   background-color: #ccc;
 }

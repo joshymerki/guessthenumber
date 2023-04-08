@@ -5,6 +5,9 @@ const message = document.querySelector('.message');
 const numberHTML = document.querySelector('.number');
 const scoreHTML = document.querySelector('.score');
 const highScoreHTML = document.querySelector('.highscore');
+const buttonCheck = document.querySelector('.btn.check');
+const bodyHTML = document.querySelector('body');
+const highScoreText = document.querySelector('.highscore-menu-text');
 
 // Our Seacret Number
 let randomNumber = Math.trunc(Math.random() * 21);
@@ -17,15 +20,15 @@ let won = false;
 
 //Funcion to Open the Menu
 const openTheMenu = function () {
-  document.querySelector('body').classList.add('open-menu');
-  document.querySelector('.highscore-menu-text').textContent = highScoreNumber;
+  bodyHTML.classList.add('open-menu');
+  highScoreText.textContent = highScoreNumber;
 };
 
 //Function if you WON
 const wonTheGame = function () {
   won = true;
   message.textContent = 'Right Number';
-  document.querySelector('body').classList.add('won');
+  bodyHTML.classList.add('won');
   numberHTML.textContent = randomNumber;
 };
 
@@ -42,11 +45,22 @@ const wrongNumberInput = function (text) {
   scoreHTML.textContent = scoreNumber;
 };
 
+//Function for Reseting all the Game stats
+const resetVar = function () {
+  lastGuess = '';
+  scoreNumber = 20;
+  scoreHTML.textContent = scoreNumber;
+  numberHTML.textContent = '?';
+  document.querySelector('.guess').value = '';
+  randomNumber = Math.trunc(Math.random() * 21);
+  message.textContent = 'Start guessing...';
+};
+
 //Function for Restarting the Game
 const restartTheGame = function (restartArt) {
   //Check if you had won
   if (won) {
-    document.querySelector('body').classList.remove('won');
+    bodyHTML.classList.remove('won');
     won = false;
     //Check if newHighscore is Higher han OLD
     if (scoreNumber > highScoreNumber && restartArt === `OHS`) {
@@ -61,13 +75,7 @@ const restartTheGame = function (restartArt) {
   }
 
   //Reset all Var to Default
-  lastGuess = '';
-  scoreNumber = 20;
-  scoreHTML.textContent = scoreNumber;
-  numberHTML.textContent = '?';
-  document.querySelector('.guess').value = '';
-  randomNumber = Math.trunc(Math.random() * 21);
-  message.textContent = 'Start guessing...';
+  resetVar();
 };
 
 //Function for Cheking the Input Value
@@ -122,16 +130,24 @@ const checkTheInput = function () {
 };
 
 //Chek Button Listener
-document.querySelector('.btn.check').addEventListener('click', checkTheInput);
+buttonCheck.addEventListener('click', checkTheInput);
 
 //Open Menu Button
 document.querySelector('.menu-btn').addEventListener('click', openTheMenu);
+
+//Restart button
+document
+  .querySelector('.normal-game .btn.restart-soft')
+  .addEventListener('click', function () {
+    restartTheGame(`OHS`);
+    document.querySelector('body').classList.remove('open-menu');
+  });
 
 //Menu Buttons
 
 //Button for Soft Reset
 document
-  .querySelector('.btn.restart-soft')
+  .querySelector('.menu .btn.restart-soft')
   .addEventListener('click', function () {
     restartTheGame(`OHS`);
     document.querySelector('body').classList.remove('open-menu');
