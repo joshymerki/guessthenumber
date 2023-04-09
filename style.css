@@ -17,6 +17,7 @@ body {
   background-color: #222;
 }
 
+/* Won Color*/
 body.won {
   background-color: #60b347;
 }
@@ -32,6 +33,8 @@ main {
   height: 65vh;
   color: #eee;
 }
+
+/*Playground*/
 .normal-game {
   height: 100%;
   display: flex;
@@ -39,6 +42,19 @@ main {
   justify-content: space-around;
 }
 
+.normal-game .left {
+  width: 52rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.normal-game .right {
+  width: 52rem;
+  font-size: 2rem;
+}
+
+/*Menu Layout*/
 .menu {
   height: 100vh;
   width: 100vw;
@@ -63,16 +79,24 @@ main {
   gap: min(15vw, 300px);
 }
 
-.left {
-  width: 52rem;
+.menu-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  gap: 17vh;
+  max-width: 1200px;
+  margin: 100px 200px;
 }
 
-.right {
-  width: 52rem;
-  font-size: 2rem;
+.instruction {
+  display: grid;
+  grid-template-columns: [first] 50% [line2] 50% [end];
+  gap: 50px;
+}
+
+.highscore-menu {
+  display: flex;
+  justify-content: center;
 }
 
 /* ELEMENTS STYLE */
@@ -110,6 +134,39 @@ h1 {
   right: 2rem;
 }
 
+.highscore-menu p {
+  font-size: 5rem;
+}
+
+.message {
+  margin-bottom: 8rem;
+  height: 3rem;
+}
+
+.label-score {
+  margin-bottom: 2rem;
+}
+
+.instruction p {
+  font-size: 3rem;
+}
+
+/*Buttons*/
+
+.btn {
+  border: none;
+  background-color: #eee;
+  color: #222;
+  font-size: 2rem;
+  font-family: inherit;
+  padding: 2rem 3rem;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #ccc;
+}
+
 .menu-btn {
   position: absolute;
   top: 2rem;
@@ -135,16 +192,6 @@ h1 {
   margin-bottom: 3rem;
 }
 
-.btn {
-  border: none;
-  background-color: #eee;
-  color: #222;
-  font-size: 2rem;
-  font-family: inherit;
-  padding: 2rem 3rem;
-  cursor: pointer;
-}
-
 .check {
   display: block;
 }
@@ -159,45 +206,4 @@ h1 {
 
 .won .normal-game .restart-soft {
   display: block;
-}
-
-.btn:hover {
-  background-color: #ccc;
-}
-
-.message {
-  margin-bottom: 8rem;
-  height: 3rem;
-}
-
-.label-score {
-  margin-bottom: 2rem;
-}
-
-.highscore-menu {
-  display: flex;
-  justify-content: center;
-}
-
-.highscore-menu p {
-  font-size: 5rem;
-}
-
-.menu-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 17vh;
-  max-width: 1200px;
-  margin: 100px 200px;
-}
-
-.instruction p {
-  font-size: 3rem;
-}
-
-.instruction {
-  display: grid;
-  grid-template-columns: [first] 50% [line2] 50% [end];
-  gap: 50px;
 }

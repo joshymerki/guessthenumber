@@ -8,8 +8,9 @@ const highScoreHTML = document.querySelector('.highscore');
 const buttonCheck = document.querySelector('.btn.check');
 const bodyHTML = document.querySelector('body');
 const highScoreText = document.querySelector('.highscore-menu-text');
+const guessHTML = document.querySelector('.guess');
 
-// Our Seacret Number
+// Creating Sectret Number from 1 to 20
 let randomNumber = Math.trunc(Math.random() * 21);
 
 // Some Variable
@@ -18,14 +19,19 @@ let highScoreNumber = 0;
 let lastGuess;
 let won = false;
 
-//Funcion to Open the Menu
-const openTheMenu = function () {
+//Function to Open the Menu
+const openMenu = function () {
   bodyHTML.classList.add('open-menu');
   highScoreText.textContent = highScoreNumber;
 };
 
+//Function to close the Menu
+const closeMenu = function () {
+  bodyHTML.classList.remove('open-menu');
+};
+
 //Function if you WON
-const wonTheGame = function () {
+const wonGame = function () {
   won = true;
   message.textContent = 'Right Number';
   bodyHTML.classList.add('won');
@@ -33,7 +39,7 @@ const wonTheGame = function () {
 };
 
 //Function if you LOST
-const loseTheGame = function () {
+const loseGame = function () {
   message.textContent = 'You Lost the Game!';
   scoreHTML.textContent = 0;
 };
@@ -51,7 +57,7 @@ const resetVar = function () {
   scoreNumber = 20;
   scoreHTML.textContent = scoreNumber;
   numberHTML.textContent = '?';
-  document.querySelector('.guess').value = '';
+  guessHTML.value = '';
   randomNumber = Math.trunc(Math.random() * 21);
   message.textContent = 'Start guessing...';
 };
@@ -63,13 +69,13 @@ const restartTheGame = function (restartArt) {
     bodyHTML.classList.remove('won');
     won = false;
     //Check if newHighscore is Higher han OLD
-    if (scoreNumber > highScoreNumber && restartArt === `OHS`) {
+    if (scoreNumber > highScoreNumber) {
       highScoreNumber = scoreNumber;
       highScoreHTML.textContent = highScoreNumber;
     }
   }
   //Check if it is a Hard reset
-  if (restartArt === `MHS`) {
+  if (restartArt === `hardReset`) {
     highScoreNumber = 0;
     highScoreHTML.textContent = highScoreNumber;
   }
@@ -81,7 +87,7 @@ const restartTheGame = function (restartArt) {
 //Function for Cheking the Input Value
 const checkTheInput = function () {
   //Get the Input Value and Convert it to a Number.
-  const numberGuessString = document.querySelector('.guess').value;
+  const numberGuessString = guessHTML.value;
   const numberGuess = Number(numberGuessString);
 
   //Check if the Input was a Number
@@ -89,12 +95,12 @@ const checkTheInput = function () {
     message.textContent = 'No Number!';
   }
 
-  //Check if the Number is not the Same Number
+  //Check if the Number is not the Same Number again
   else if (lastGuess != numberGuess) {
     //Check if the Input Was the Random number
     if (numberGuess === randomNumber) {
       lastGuess = numberGuess;
-      wonTheGame();
+      wonGame();
     }
 
     //Check if the Input was hihger then the Random Number
@@ -103,7 +109,7 @@ const checkTheInput = function () {
       if (scoreNumber > 1) {
         wrongNumberInput('high');
       } else {
-        loseTheGame();
+        loseGame();
       }
     }
 
@@ -113,35 +119,33 @@ const checkTheInput = function () {
       if (scoreNumber > 1) {
         wrongNumberInput('low');
       } else {
-        loseTheGame();
+        loseGame();
       }
+    }
+    //Default Anwser
+    else {
+      message.textContent = 'The Number is out of Scope';
     }
   }
 
   //Check if it is the Same number
-  else if (lastGuess == numberGuess) {
+  else if (lastGuess === numberGuess) {
     message.textContent = 'Dont input the same Number Again';
-  }
-
-  //Default Anwser
-  else {
-    message.textContent = 'The Number is out of Scope';
   }
 };
 
 //Chek Button Listener
 buttonCheck.addEventListener('click', checkTheInput);
 
-//Open Menu Button
-document.querySelector('.menu-btn').addEventListener('click', openTheMenu);
-
 //Restart button
 document
   .querySelector('.normal-game .btn.restart-soft')
   .addEventListener('click', function () {
-    restartTheGame(`OHS`);
-    document.querySelector('body').classList.remove('open-menu');
+    restartTheGame(`softReset`);
   });
+
+//Open Menu Button
+document.querySelector('.menu-btn').addEventListener('click', openMenu);
 
 //Menu Buttons
 
@@ -149,21 +153,20 @@ document
 document
   .querySelector('.menu .btn.restart-soft')
   .addEventListener('click', function () {
-    restartTheGame(`OHS`);
-    document.querySelector('body').classList.remove('open-menu');
+    restartTheGame(`softReset`);
+    closeMenu();
   });
 
 //Button for hard Reset
 document
   .querySelector('.btn.restart-hard')
   .addEventListener('click', function () {
-    restartTheGame(`MHS`);
-    document.querySelector('body').classList.remove('open-menu');
+    restartTheGame(`hardReset`);
+    closeMenu();
   });
+
 //Button for Menu Close
-document.querySelector('.btn.c-menu').addEventListener('click', function () {
-  document.querySelector('body').classList.remove('open-menu');
-});
+document.querySelector('.btn.c-menu').addEventListener('click', closeMenu);
 
 //Add Key Support
 window.addEventListener(
@@ -176,19 +179,17 @@ window.addEventListener(
     switch (event.key) {
       //Key Support Esc
       case 'Escape':
-        if (document.querySelector(`body`).classList.contains(`open-menu`)) {
-          document.querySelector('body').classList.remove('open-menu');
-        }
+        closeMenu();
         break;
       //Key Support Enter
       case 'Enter':
-        if (!document.querySelector(`body`).classList.contains(`open-menu`)) {
+        if (!bodyHTML.classList.contains(`open-menu`)) {
           checkTheInput();
         }
         break;
       case ' ':
-        if (!document.querySelector(`body`).classList.contains(`open-menu`)) {
-          restartTheGame(`OHS`);
+        if (!bodyHTML.classList.contains(`open-menu`)) {
+          restartTheGame(`softReset`);
         }
         break;
       default:
