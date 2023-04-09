@@ -58,19 +58,21 @@ main {
 .menu {
   height: 100vh;
   width: 100vw;
+  display: flex;
+  justify-content: center;
   position: absolute;
   top: 0;
   left: 0;
   background-color: #222;
-  display: none;
+  pointer-events: none;
+  visibility: hidden;
   opacity: 0;
 }
 
-.open-menu .menu {
-  display: block;
+.open-menu.menu {
   opacity: 1;
-  display: flex;
-  justify-content: center;
+  pointer-events: auto;
+  visibility: visible;
 }
 
 .menu .restart-section {
@@ -136,6 +138,8 @@ h1 {
 
 .highscore-menu p {
   font-size: 5rem;
+  text-align: center;
+  line-height: 8rem;
 }
 
 .message {

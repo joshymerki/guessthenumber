@@ -1,14 +1,17 @@
 'use strict';
 
 //Initial all HTML Elements into var
+const bodyHTML = document.querySelector('body');
+const menuHTML = document.querySelector('.menu');
 const message = document.querySelector('.message');
 const numberHTML = document.querySelector('.number');
 const scoreHTML = document.querySelector('.score');
 const highScoreHTML = document.querySelector('.highscore');
 const buttonCheck = document.querySelector('.btn.check');
-const bodyHTML = document.querySelector('body');
 const highScoreText = document.querySelector('.highscore-menu-text');
 const guessHTML = document.querySelector('.guess');
+const openMenuBtn = document.querySelector('.menu-btn');
+const closeMenuBtn = document.querySelector('.btn.c-menu');
 
 // Creating Sectret Number from 1 to 20
 let randomNumber = Math.trunc(Math.random() * 21);
@@ -18,16 +21,19 @@ let scoreNumber = 20;
 let highScoreNumber = 0;
 let lastGuess;
 let won = false;
+let menuOpen = false;
 
 //Function to Open the Menu
 const openMenu = function () {
-  bodyHTML.classList.add('open-menu');
+  menuHTML.classList.add('open-menu');
+  menuOpen = true;
   highScoreText.textContent = highScoreNumber;
 };
 
 //Function to close the Menu
 const closeMenu = function () {
-  bodyHTML.classList.remove('open-menu');
+  menuHTML.classList.remove('open-menu');
+  menuOpen = false;
 };
 
 //Function if you WON
@@ -65,7 +71,7 @@ const resetVar = function () {
 };
 
 //Function for Restarting the Game
-const restartTheGame = function (restartArt) {
+const restartGame = function (restartArt) {
   //Check if you had won
   if (won) {
     bodyHTML.classList.remove('won');
@@ -87,7 +93,7 @@ const restartTheGame = function (restartArt) {
 };
 
 //Function for Cheking the Input Value
-const checkTheInput = function () {
+const checkInput = function () {
   //Get the Input Value and Convert it to a Number.
   const numberGuessString = guessHTML.value;
   const numberGuess = Number(numberGuessString);
@@ -136,17 +142,17 @@ const checkTheInput = function () {
   }
 };
 
-//Chek Button Listener
+//Check Button Listener
 buttonCheck.addEventListener('click', function () {
   if (!won) {
-    checkTheInput();
+    checkInput();
   } else if (won) {
-    restartTheGame('soft');
+    restartGame('soft');
   }
 });
 
 //Open Menu Button
-document.querySelector('.menu-btn').addEventListener('click', openMenu);
+openMenuBtn.addEventListener('click', openMenu);
 
 //Menu Buttons
 
@@ -154,7 +160,7 @@ document.querySelector('.menu-btn').addEventListener('click', openMenu);
 document
   .querySelector('.btn.restart-soft')
   .addEventListener('click', function () {
-    restartTheGame(`softReset`);
+    restartGame(`softReset`);
     closeMenu();
   });
 
@@ -162,12 +168,12 @@ document
 document
   .querySelector('.btn.restart-hard')
   .addEventListener('click', function () {
-    restartTheGame(`hardReset`);
+    restartGame(`hardReset`);
     closeMenu();
   });
 
 //Button for Menu Close
-document.querySelector('.btn.c-menu').addEventListener('click', closeMenu);
+closeMenuBtn.addEventListener('click', closeMenu);
 
 //Add Key Support
 window.addEventListener(
@@ -184,13 +190,13 @@ window.addEventListener(
         break;
       //Key Support Enter
       case 'Enter':
-        if (!bodyHTML.classList.contains(`open-menu`)) {
-          checkTheInput();
+        if (!menuOpen) {
+          checkInput();
         }
         break;
       case ' ':
-        if (!bodyHTML.classList.contains(`open-menu`)) {
-          restartTheGame(`softReset`);
+        if (!menuOpen) {
+          restartGame(`softReset`);
         }
         break;
       default:
