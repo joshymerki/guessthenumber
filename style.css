@@ -191,19 +191,3 @@ h1 {
   display: block;
   margin-bottom: 3rem;
 }
-
-.check {
-  display: block;
-}
-
-.normal-game .restart-soft {
-  display: none;
-}
-
-.won .check {
-  display: none;
-}
-
-.won .normal-game .restart-soft {
-  display: block;
-}

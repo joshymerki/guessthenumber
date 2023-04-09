@@ -36,6 +36,7 @@ const wonGame = function () {
   message.textContent = 'Right Number';
   bodyHTML.classList.add('won');
   numberHTML.textContent = randomNumber;
+  buttonCheck.textContent = 'Restart';
 };
 
 //Function if you LOST
@@ -59,6 +60,7 @@ const resetVar = function () {
   numberHTML.textContent = '?';
   guessHTML.value = '';
   randomNumber = Math.trunc(Math.random() * 21);
+  buttonCheck.textContent = 'Ckeck!';
   message.textContent = 'Start guessing...';
 };
 
@@ -135,14 +137,13 @@ const checkTheInput = function () {
 };
 
 //Chek Button Listener
-buttonCheck.addEventListener('click', checkTheInput);
-
-//Restart button
-document
-  .querySelector('.normal-game .btn.restart-soft')
-  .addEventListener('click', function () {
-    restartTheGame(`softReset`);
-  });
+buttonCheck.addEventListener('click', function () {
+  if (!won) {
+    checkTheInput();
+  } else if (won) {
+    restartTheGame('soft');
+  }
+});
 
 //Open Menu Button
 document.querySelector('.menu-btn').addEventListener('click', openMenu);
@@ -151,7 +152,7 @@ document.querySelector('.menu-btn').addEventListener('click', openMenu);
 
 //Button for Soft Reset
 document
-  .querySelector('.menu .btn.restart-soft')
+  .querySelector('.btn.restart-soft')
   .addEventListener('click', function () {
     restartTheGame(`softReset`);
     closeMenu();
